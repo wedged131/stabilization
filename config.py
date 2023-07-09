@@ -20,7 +20,7 @@ g = 9.80665
 GRAVITY_FORCE = MASS * g
 
 PID_COEFFICIENTS = {
-    "proportional": 1,
+    "proportional": 0.7,
     "integral": 0,
     "differential": 0
 }
@@ -42,9 +42,12 @@ def read_table(filepath: Path) -> tuple[tuple[np.ndarray], np.ndarray]:
                 tmp = tmp[tmp["alpha"] == a]
                 tmp = tmp[tmp["delta"] == d]
                 output_table[i][j][k] = tmp['parameter'].values[0]
-    print(output_table)
+    # print(output_table)
     return points, output_table
 
 Cx_points, Cx_values = read_table(BASE_DIR.joinpath("Cx_table.csv"))
 Cy_points, Cy_values = read_table(BASE_DIR.joinpath("Cy_table.csv"))
 Mz_points, Mz_values = read_table(BASE_DIR.joinpath("Mz_table.csv"))
+Cx_values *= 5
+Cy_values *= 10
+Mz_values *= 10

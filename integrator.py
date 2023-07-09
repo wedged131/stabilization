@@ -6,7 +6,7 @@ import config
 
 
 Vector = np.ndarray[float]
-SystemOfEquations = Callable[[float, Vector], Vector]
+SystemOfEquations = Callable[[float, Vector, float], Vector]
 SystemStopReason = Callable[[float, Vector], bool]
 
 def integrator_RK4(
@@ -28,10 +28,10 @@ def integrator_RK4(
         if stopreason(t, X):
             stop_index = i
             break
-        k1 = system(t, X, config)
-        k2 = system(t + 0.5 * dt, X + k1 * 0.5 * dt, config)
-        k3 = system(t + 0.5 * dt, X + k2 * 0.5 * dt, config)
-        k4 = system(t + dt, X + k3 * dt, config)
+        k1 = system(t, X, dt)
+        k2 = system(t + 0.5 * dt, X + k1 * 0.5 * dt, dt)
+        k3 = system(t + 0.5 * dt, X + k2 * 0.5 * dt, dt)
+        k4 = system(t + dt, X + k3 * dt, dt)
         X += (k1 + 2 * k2 + 2 * k3 + k4) * dt / 6
         res[i, 0] = t
         res[i, 1:res_len] = X
