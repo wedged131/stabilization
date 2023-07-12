@@ -5,14 +5,10 @@ import numpy as np
 import config
 
 
-Vector = np.ndarray[float]
-SystemOfEquations = Callable[[float, Vector, float], Vector]
-SystemStopReason = Callable[[float, Vector], bool]
-
 def integrator_RK4(
         init_params: Iterable,
-        system: SystemOfEquations,
-        stopreason: SystemStopReason,
+        system,
+        stopreason,
         t0: float = 0.0,
         dt: float = 1e-5,
         max_step_count: int = config.MAX_STEP_COUNT) -> np.ndarray:
@@ -38,3 +34,7 @@ def integrator_RK4(
     else:
         stop_index = max_step_count
     return res[0:stop_index, :]
+
+
+def integrate_step(value: float, derivate: float, step: float) -> float:
+    return value + derivate * step

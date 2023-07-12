@@ -1,7 +1,6 @@
-import numpy as np
 import matplotlib.pyplot as plt
 
-def base_graph(x, y, xlabel, ylabel, *, show: bool = True, save: bool = False, savename: str | None = None):
+def base_graph(x, y, xlabel, ylabel, *, show: bool = True, save: bool = False, savename = None):
     plt.figure()
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)

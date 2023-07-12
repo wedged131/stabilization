@@ -20,9 +20,9 @@ g = 9.80665
 GRAVITY_FORCE = MASS * g
 
 PID_COEFFICIENTS = {
-    "proportional": 0.7,
-    "integral": 0,
-    "differential": 0
+    "proportional": 5,
+    "integral": 5,
+    "differential": 0.002
 }
 
 def read_table(filepath: Path) -> tuple[tuple[np.ndarray], np.ndarray]:
@@ -30,9 +30,6 @@ def read_table(filepath: Path) -> tuple[tuple[np.ndarray], np.ndarray]:
     Mach = input_table["Mach"].unique()
     alpha = input_table["alpha"].unique()
     delta = input_table["delta"].unique()
-    # print(Mach)
-    # print(alpha)
-    # print(delta)
     points = (Mach, alpha, delta)
     output_table = np.zeros((Mach.size, alpha.size, delta.size))
     for i, M in enumerate(Mach):
@@ -42,7 +39,6 @@ def read_table(filepath: Path) -> tuple[tuple[np.ndarray], np.ndarray]:
                 tmp = tmp[tmp["alpha"] == a]
                 tmp = tmp[tmp["delta"] == d]
                 output_table[i][j][k] = tmp['parameter'].values[0]
-    # print(output_table)
     return points, output_table
 
 Cx_points, Cx_values = read_table(BASE_DIR.joinpath("Cx_table.csv"))

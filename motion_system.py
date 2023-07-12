@@ -12,5 +12,5 @@ def motion_system(*,
     d_x_z = v_xz
     d_y_z = v_yz
     d_tau = omega
-    n_y_ = ((Y + P * np.sin(alpha)) / (mass * config.g) - np.cos(tau) - n_y)
+    n_y_ = (Y + P * np.sin(alpha)) / (mass * config.g) - np.cos(tau)
     return (d_v_xz, d_v_yz, d_omega, d_x_z, d_y_z, d_tau, n_y_)
