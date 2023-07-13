@@ -49,10 +49,16 @@ def system(t: float, vector, dt) -> np.ndarray:
     res[14] = (P(t) - vector[14]) / dt
     return res
 
+def clamped_alpha(alpha):
+    if alpha > np.radians(24):
+        return np.radians(24)
+    if alpha < np.radians(-24):
+        return np.radians(-24)
+    return alpha
 
 def main():
     dt = 0.001
-    timelist = np.arange(0, 3, dt)
+    timelist = np.arange(0, 2, dt)
     res_len = 16 + 1
     res = np.zeros((len(timelist), res_len))
 
@@ -80,6 +86,12 @@ def main():
     for i, t in enumerate(timelist):
         res[i, 0] = t
         res[i, 1:] = _v_xz, _v_yz, _omega, _x_z, _y_z, _tau, _n_y, _delta_target, _delta_actual, _alpha, _X, _Y, _M_aero, _mass, _moment_of_inertia, _pull
+    # alpha
+        _v_x = _v_xz * np.cos(_tau) + _v_yz * np.sin(_tau)
+        _v_y = - _v_xz * np.sin(_tau) + _v_yz * np.cos(_tau)
+        # _alpha = np.arctan(_v_y / _v_x)
+        _alpha = 0
+        _alpha = clamped_alpha(_alpha)
     # aerodynamics
         _X, _Y, _M_aero = aerodynamic(
             v_xz=_v_xz, v_yz=_v_yz, alpha=_alpha, delta=_delta_actual, H=_y_z

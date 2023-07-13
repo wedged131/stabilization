@@ -71,9 +71,9 @@ def aerodynamic(*,
         delta: float,
         H: float) -> tuple:
     Mach = _Mach(v_xz, v_yz, H)
-    Cx_ = Cx(Mach, alpha, delta)
-    Cy_ = Cy(Mach, alpha, delta)
-    Mz_ = Mz(Mach, alpha, delta)
+    Cx_ = Cx(Mach, abs(alpha), delta) * (1 if alpha >= 0 else -1)
+    Cy_ = Cy(Mach, abs(alpha), delta) * (1 if alpha >= 0 else -1)
+    Mz_ = Mz(Mach, abs(alpha), delta) * (1 if alpha >= 0 else -1)
     X = Cx_ * q(Mach, H) * config.CHARACTERISTIC_AREA
     Y = Cy_ * q(Mach, H) * config.CHARACTERISTIC_AREA
     M = Mz_ * q(Mach, H) * config.CHARACTERISTIC_AREA * config.CHARACTERISTIC_LENGTH

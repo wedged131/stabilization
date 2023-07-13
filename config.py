@@ -20,9 +20,9 @@ g = 9.80665
 GRAVITY_FORCE = MASS * g
 
 PID_COEFFICIENTS = {
-    "proportional": 5,
-    "integral": 5,
-    "differential": 0.002
+    "proportional": -2,
+    "integral": -4,
+    "differential": 0
 }
 
 def read_table(filepath: Path) -> tuple[tuple[np.ndarray], np.ndarray]:
