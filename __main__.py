@@ -35,7 +35,7 @@ def system(t: float, vector, dt) -> np.ndarray:
         moment=vector[11], moment_of_inertia=vector[13], v_xz=vector[0], v_yz=vector[1], omega=vector[2], n_y=vector[6]
     )
     res[6] = n_y_ / dt
-    res[7] =( PID(prev_value=-vector[2]) - vector[7] )/ dt
+    res[7] =( PID(base_value=-vector[2]) - vector[7] )/ dt
 #    res[7] = actuator(delta_target, vector[7]) / dt
     res[8] = 0
     res[9], res[10], res[11] = aerodynamic(
@@ -74,11 +74,12 @@ def main():
     _moment_of_inertia = config.MOMENT_OF_INERTIA   # 14
     _pull = P(0)                                    # 15
 
+    _base_value = 0
+
 # start simulation
     for i, t in enumerate(timelist):
         res[i, 0] = t
         res[i, 1:] = _v_xz, _v_yz, _omega, _x_z, _y_z, _tau, _n_y, _delta_target, _delta_actual, _alpha, _X, _Y, _M_aero, _mass, _moment_of_inertia, _pull
-        _omega_prev = _omega
     # aerodynamics
         _X, _Y, _M_aero = aerodynamic(
             v_xz=_v_xz, v_yz=_v_yz, alpha=_alpha, delta=_delta_actual, H=_y_z
@@ -98,7 +99,7 @@ def main():
         _tau += motion_derivations[5] * dt
         _n_y = motion_derivations[6]
     # PID
-        _delta_target = PID(_omega_prev, _omega, dt)
+        _delta_target = PID(_base_value, _omega, dt)
     # actuator
         _delta_actual = actuator(_delta_target)
 
